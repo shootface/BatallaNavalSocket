@@ -17,7 +17,6 @@ public class VentanaSelecion extends javax.swing.JFrame {
     public VentanaSelecion(Modelo aThis) {
         modelo = aThis;
         initComponents();
-        asignarEventos();
     }
     public ControladorSelecion getControl(){
         if(control == null){

@@ -86,6 +86,7 @@ public class Modelo {
         }
         return ventanaJugadores;
     }
+    
     public Sistema getSistema(){
         if(sistema==null){
             sistema = new Sistema(this);
