@@ -18,6 +18,7 @@ public class SistemaCliente implements Runnable{
     public static BufferedReader dis;
     public static InetAddress ia;
     public static int cport = 789, sport = 790;
+    public boolean detener=false;
     /*private Socket host;
     private DataInputStream datosEntrada;
     private DataOutputStream datosSalida;*/
@@ -89,6 +90,9 @@ public class SistemaCliente implements Runnable{
         return correrCliente;
     } 
 
+    public void detener(){
+        detener = true;
+    }
     @Override
     public void run() {
         System.out.println("entro al hilo del cliente");
@@ -100,7 +104,7 @@ public class SistemaCliente implements Runnable{
             } catch (Exception ex) {
                 System.out.println("DAÑO HILO LEER CLIENTE "+ex);
             }
-        }while(true);
+        }while(detener==false);
     }
 }
 

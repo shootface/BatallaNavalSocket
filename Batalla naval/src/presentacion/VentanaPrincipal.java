@@ -204,10 +204,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     private void barcos(){ 
         //Creacion de los submarinos
-        submarino = new JLabel[4];
+        submarino = new JLabel[5];
         int posx = 0;
         int cont = 0;
-        for(int i=0;i<4;i++){
+        for(int i=0;i<5;i++){
             submarino[i] = new JLabel();
             submarino[i].setSize(40,40);
             posx=80+(i*(40+20));
@@ -220,6 +220,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             submarino[i].addMouseListener(getControl());
             this.getContentPane().add(submarino[i]);
         }
+        
         //creacion de los barcos destructores
         destructor = new JLabel[3][2];
         for(int i=0;i<3;i++){

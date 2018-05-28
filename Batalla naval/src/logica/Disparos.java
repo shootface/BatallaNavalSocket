@@ -12,6 +12,8 @@ public class Disparos {
     private int[][] marint = new int [10][10];
     private boolean[][] mar2boolSalida = new boolean [10][10];
     private Sistema sistema;
+    private boolean gano = false;
+    private boolean flag = false;
     
     public Disparos(Sistema aThis) {
         sistema = aThis;
@@ -25,6 +27,9 @@ public class Disparos {
                 }else{
                     marint[i][j]=0;
                 }
+                if(mar[i][j].getBackground()==Color.GREEN){
+                    marint[i][j]=2;
+                }
                 mar2boolSalida[i][j]=false;
             }    
         }
@@ -32,7 +37,6 @@ public class Disparos {
     public boolean ganar(JLabel[][] mar){
         System.out.println("inicio ganar");
         int cont = 0;
-        boolean gano = false;
         for(int i=0;i<10;i++){
             for(int j=0; j<10;j++){
                 if(mar[i][j].getBackground()==Color.RED){
@@ -53,6 +57,10 @@ public class Disparos {
         if(marint[i][j]==1){
             llego=true;
         }
+        if(marint[i][j]==2){
+            llego=true;
+            flag = true;
+        }
         return llego;
     }
 
@@ -62,5 +70,11 @@ public class Disparos {
 
     public boolean[][] getMar2boolSalida() {
         return mar2boolSalida;
-    }    
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+    
+    
 }

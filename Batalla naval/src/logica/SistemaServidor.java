@@ -67,7 +67,7 @@ public class SistemaServidor implements Runnable{
     
     public void enviar(String mensaje) throws IOException{
         System.out.println("mensaje : "+mensaje);
-        System.out.println("inicio el cliente");
+        //System.out.println("inicio el cliente");
         serversocket.send(new DatagramPacket(mensaje.getBytes(), mensaje.length(), ia, cport));
         //datosSalida.write(mensaje.getBytes());
 //        datosSalida.close();

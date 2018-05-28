@@ -41,8 +41,8 @@ public class Sistema {
         return disparos;
     }
 
-    public void disparosSalida(JLabel label, String soy, JLabel[][] cubo2) {
-        if (label.getName().equals("mar2")) {
+    public void disparosSalida(JLabel label, String soy, JLabel[][] cubo2,boolean b) {
+        if (label.getName().equals("mar2") && b==true) {
             System.out.println("inicio el control de salida");
             int tempx = 0;
             int tempy = 0;
@@ -70,6 +70,8 @@ public class Sistema {
                     System.out.println("fallo en control de disparos SISTEMA CLIENTE");
                 }
             }
+        }else{
+            System.out.println("No puede disparar");
         }
     }
 
@@ -202,11 +204,48 @@ public class Sistema {
                 }
             }
         }
-        if (post[2].equals("P")){
-            try {
-                modelo.finJuego("lose");
-            } catch (IOException ex) {
-                System.out.println("Fin del juego fallo");
+        if (post[2].equals("P") || getDisparos().isFlag()){
+            if (modelo.getSoy().equals("server")) {
+                try {
+                    getServidor().enviar("0/0/W/W");
+                    System.out.println("mensaje trato");
+                    modelo.finJuego("lose");
+                    System.out.println("mensaje hecho");
+                } catch (IOException ex) {
+                    System.out.println("DAÑO ENVIAR PERDIO EN server");
+                }
+            }
+            if (modelo.getSoy().equals("cliente")) {
+                try {
+                    getCliente().enviar("0/0/W/W");
+                    System.out.println("mensaje trato");
+                    modelo.finJuego("lose");
+                    System.out.println("mensaje hecho");
+                } catch (IOException ex) {
+                    System.out.println("DAÑO ENVIAR PERDIO EN cliente");
+                }
+            }
+        }
+        if (post[2].equals("W")){
+            if (modelo.getSoy().equals("server")) {
+                try {
+                    getServidor().enviar("0/0/P/P");
+                    System.out.println("mensaje trato");
+                    modelo.finJuego("win");
+                    System.out.println("mensaje hecho");
+                } catch (IOException ex) {
+                    System.out.println("DAÑO ENVIAR PERDIO EN server");
+                }
+            }
+            if (modelo.getSoy().equals("cliente")) {
+                try {
+                    getCliente().enviar("0/0/P/P");
+                    System.out.println("mensaje trato");
+                    modelo.finJuego("win");
+                    System.out.println("mensaje hecho");
+                } catch (IOException ex) {
+                    System.out.println("DAÑO ENVIAR PERDIO EN cliente");
+                }
             }
         }
     }

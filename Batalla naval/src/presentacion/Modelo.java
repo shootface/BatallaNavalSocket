@@ -23,6 +23,7 @@ public class Modelo {
     private VentanaSelecion ventanaselecion;
     private Sistema sistema;
     private boolean creado=false;
+    private boolean barcos=false;
     private Color color;
     private String barcoS;
     private int conteo;
@@ -34,12 +35,15 @@ public class Modelo {
     private int pcru2 = 0;
     private int posX1=0;
     private int posY1=0;
+    private int flagX = -1;
+    private int flagY = -1;
     private String barco_nom = "";
     private boolean sub1 = false;
     private boolean sub2 = false;
     private boolean sub3 = false;
     private boolean sub4 = false;
-    private boolean []submarino = new boolean [4] ;
+    private boolean sub5 = false;
+    private boolean []submarino = new boolean [5] ;
     
     public Modelo() {
         for(int i=0;i<4;i++){
@@ -70,7 +74,7 @@ public class Modelo {
                 try {
                     iniciarjuego();
                 } catch (Exception ex) {
-                    System.out.println("No se puedo iniciar la ventana ");
+                    System.out.println("No se puedo iniciar la ventana "+ex.toString());
                 }
             }
         } catch (IOException ex) {
@@ -137,10 +141,15 @@ public class Modelo {
         //}
     }     
     public void controlDisparosSalida(JLabel label) throws IOException{
-        getSistema().disparosSalida(label,soy,getVentanaInicial().getCubo2());
-        //if(cont==16){
-           getSistema().getDisparos().recorrer(getVentanaInicial().getCubo());
-        //}
+        if(cont==1){
+            barcos=true;
+            System.out.println("TODOS LOS BARCOS");
+            getSistema().getDisparos().recorrer(getVentanaInicial().getCubo());
+        }else{
+            System.out.println("FALTAN BARCOS");
+            //JOptionPane.showMessageDialog(ventanaInicial,"Asigne todos los barcos");
+        }
+        getSistema().disparosSalida(label,soy,getVentanaInicial().getCubo2(),barcos);
     }
     public void controlDisparosLlegaPos(int x , int y){
         getVentanaInicial().getCubo2()[x][y].setBackground(Color.RED);
@@ -155,11 +164,13 @@ public class Modelo {
         if(S.equals("win")){
             JOptionPane.showMessageDialog(ventanaInicial,"GANO EL JUEGO,Felicitaciones");
             if(soy.equals("server")){
+                getSistema().getServidor().detener();
                 //getSistema().getServidor().getDatosEntrada().close();
                 //getSistema().getServidor().getDatosSalida().close();
                 getVentanaInicial().dispose();
             }
             if(soy.equals("cliente")){
+                getSistema().getCliente().detener();
                 //getSistema().getCliente().getDatosEntrada().close();
                 //getSistema().getCliente().getDatosSalida().close();
                 getVentanaInicial().dispose();
@@ -168,11 +179,13 @@ public class Modelo {
         if(S.equals("lose")){
             JOptionPane.showMessageDialog(ventanaInicial,"Usted es muy mal, sera la proxima");
             if(soy.equals("server")){
+                getSistema().getServidor().detener();
                 //getSistema().getServidor().getDatosEntrada().close();
                 //getSistema().getServidor().getDatosSalida().close();
                 getVentanaInicial().dispose();
             }
             if(soy.equals("cliente")){
+                getSistema().getCliente().detener();
                 //getSistema().getCliente().getDatosEntrada().close();
                 //getSistema().getCliente().getDatosSalida().close();
                 getVentanaInicial().dispose();
@@ -269,6 +282,18 @@ public class Modelo {
                     getVentanaInicial().getSubmarino()[3].setVisible(false);
                     barco.setName("submarino3");
                     sub4 = true;
+                    barcoS = "";
+                    cont=cont+1;
+                }else{
+                    JOptionPane.showMessageDialog(ventanaInicial,"no se JUAN DIEGO");
+                }
+            }
+            if(barcoS.equals("submarino4")){
+                if(barco.getBackground()!=Color.BLACK){
+                    barco.setBackground(Color.GREEN);
+                    getVentanaInicial().getSubmarino()[4].setVisible(false);
+                    barco.setName("submarino4");
+                    sub5 = true;
                     barcoS = "";
                     cont=cont+1;
                 }else{
