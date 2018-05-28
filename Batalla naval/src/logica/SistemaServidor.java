@@ -5,11 +5,14 @@
  */
 package logica;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 /**
  *
@@ -17,10 +20,16 @@ import java.io.DataOutputStream;
  */
 public class SistemaServidor implements Runnable{
 
-    private ServerSocket server;
+    public static DatagramSocket serversocket;
+    public static DatagramPacket dp;
+    public static BufferedReader dis;
+    public static InetAddress ia;
+    public static int cport = 789, sport = 790;
+    public boolean detener=false;
+    /*private ServerSocket server;
     private Socket cliente;
     private DataOutputStream datosSalida;
-    private DataInputStream datosEntrada;
+    private DataInputStream datosEntrada;*/
     private byte buffer[]=new byte[7];
     private String mensaje;
     private Thread correr;
@@ -30,29 +39,37 @@ public class SistemaServidor implements Runnable{
         sistema = aThis;
     }
     
-    
-    
     public void crearServidor() throws IOException {
-        server = new ServerSocket(5700);
+        serversocket = new DatagramSocket(sport);
+        dp = new DatagramPacket(buffer, buffer.length);
+        dis = new BufferedReader(new InputStreamReader(System.in));
+        ia = InetAddress.getLocalHost();
+        //ia = InetAddress.getByName(ip);
+        //ia = InetAddress.getByName("192.168.0.5");
+        System.out.println("Server is Running...");
+        /*server = new ServerSocket(5700);
         System.out.println("espero cliente");  
         cliente = server.accept();
         getDatosEntrada();
-        getDatosSalida();
+        getDatosSalida();*/
     }
     
     public void leer() throws IOException{
-        
-        System.out.println("llego en el srvidor");
-        datosEntrada.read(buffer);        
+        System.out.println("llego en el servidor");
+        serversocket.receive(dp);
+        mensaje = new String(dp.getData(), 0,dp.getLength());
+        sistema.disparosLLega(mensaje);
+        /*datosEntrada.read(buffer);        
         System.out.println("LLEGO: "+new String(buffer));
         mensaje = new String(buffer);
-        sistema.disparosLLega(mensaje);
+        */
     }
     
     public void enviar(String mensaje) throws IOException{
         System.out.println("mensaje : "+mensaje);
         System.out.println("inicio el cliente");
-        datosSalida.write(mensaje.getBytes());
+        serversocket.send(new DatagramPacket(mensaje.getBytes(), mensaje.length(), ia, cport));
+        //datosSalida.write(mensaje.getBytes());
 //        datosSalida.close();
 //        cliente.close();
     }
@@ -64,27 +81,30 @@ public class SistemaServidor implements Runnable{
         return correr;
     }
     
-    public DataInputStream getDatosEntrada(){
-        if(datosEntrada==null){
-            try {
-                datosEntrada= new DataInputStream(cliente.getInputStream());
-            } catch (IOException ex) {
-                System.out.println("no sep udo crear datos entrada  en el get");
-            }
-        }
-        return datosEntrada;
+    public void detener(){
+        detener = true;
     }
-    
-    public DataOutputStream getDatosSalida(){
-        if(datosSalida==null){
-            try {
-                datosSalida = new DataOutputStream(cliente.getOutputStream());
-            } catch (IOException ex) {
-                System.out.println("no se pudo crear datos salida en el get");
-            }
-        }
-        return datosSalida;
-    }
+//    public DataInputStream getDatosEntrada(){
+//        if(datosEntrada==null){
+//            try {
+//                datosEntrada= new DataInputStream(cliente.getInputStream());
+//            } catch (IOException ex) {
+//                System.out.println("no sep udo crear datos entrada  en el get");
+//            }
+//        }
+//        return datosEntrada;
+//    }
+//    
+//    public DataOutputStream getDatosSalida(){
+//        if(datosSalida==null){
+//            try {
+//                datosSalida = new DataOutputStream(cliente.getOutputStream());
+//            } catch (IOException ex) {
+//                System.out.println("no se pudo crear datos salida en el get");
+//            }
+//        }
+//        return datosSalida;
+//    }
 
     @Override
     public void run() {
@@ -97,7 +117,7 @@ public class SistemaServidor implements Runnable{
             } catch (IOException ex) {
                 System.out.println("DAÑO HILO LEER SERVIDOR "+ex);
             }
-        }while(true);
+        }while(detener==false);
     }
     
     

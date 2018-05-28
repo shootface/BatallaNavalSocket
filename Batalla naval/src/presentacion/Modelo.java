@@ -3,6 +3,8 @@ package presentacion;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,9 +18,9 @@ import logica.Sistema;
 public class Modelo {
     
     private String soy;
+    private String nickname;
     private VentanaPrincipal ventanaInicial;
     private VentanaSelecion ventanaselecion;
-    private VentanaJugadores ventanaJugadores;
     private Sistema sistema;
     private boolean creado=false;
     private Color color;
@@ -46,8 +48,9 @@ public class Modelo {
     }
     
     public void iniciar(){
-        getVentanaSelecion().setSize(300,300);
-        getVentanaSelecion().setVisible(true);
+//        getVentanaSelecion().setSize(300,300);
+//        getVentanaSelecion().setVisible(true);
+          inciarservidorJuego();
     }
     
     public void iniciarjuego() throws Exception {
@@ -60,9 +63,31 @@ public class Modelo {
             if(creado==false){
             System.out.println("SOY SERVIDOR");
             getSistema().getServidor().crearServidor();
+            System.out.println("inicio hilo");
+            getSistema().getServidor().getHilo().start();
+            System.out.println("inciado");
+            soy="server";
+                try {
+                    iniciarjuego();
+                } catch (Exception ex) {
+                    System.out.println("No se puedo iniciar la ventana ");
+                }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(ventanaInicial,"No se pudo crear el servidor");
+            System.out.println("No se pudo crear el servidor");
+            //JOptionPane.showMessageDialog(ventanaselecion,"No se pudo crear el servidor");
+            try {
+                sistema();
+            } catch (Exception ex1) {
+                System.out.println("No se pudo conectar al servidor");
+                //JOptionPane.showMessageDialog(ventanaselecion,"No se pudo conectar al servidor");
+            }
+            try {
+                iniciarjuego();
+            } catch (Exception ex1) {
+                System.out.println("Error en la ventana");
+                //Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
     
@@ -80,13 +105,6 @@ public class Modelo {
         }
         return ventanaselecion;
     }
-    public VentanaJugadores getVentanaJugadores(){
-        if (ventanaJugadores==null){
-            ventanaJugadores = new VentanaJugadores();
-        }
-        return ventanaJugadores;
-    }
-    
     public Sistema getSistema(){
         if(sistema==null){
             sistema = new Sistema(this);
@@ -97,14 +115,9 @@ public class Modelo {
         return soy;
     }
     
-    //Metodos de gestion de jugadores
-    public void sistemaJugadores(){
-        
-    }
-    
     //Metodos del juego
-    public void sistema(JButton boton) throws Exception{
-        if(boton.getName().equals("crear")){
+    public void sistema() throws Exception{
+        /*if(boton.getName().equals("crear")){
             System.out.println("entro a crear");
             soy="server";
             inciarservidorJuego();
@@ -112,15 +125,16 @@ public class Modelo {
             System.out.println("inicio hilo");
             getSistema().getServidor().getHilo().start();
             System.out.println("inciado");
-        }
-        if(boton.getName().equals("unir")){
+        }*/
+        //if(boton.getName().equals("unir")){
+            System.out.println("Se detiene el hilo del servidor para ser cliente");
+            //getSistema().getServidor().detener();
             System.out.println("entro a unir");
             soy="cliente";
-            iniciarjuego();
             System.out.println("inicio hilo");
             getSistema().getCliente().getHilo().start();
             System.out.println("inciado");
-        }
+        //}
     }     
     public void controlDisparosSalida(JLabel label) throws IOException{
         getSistema().disparosSalida(label,soy,getVentanaInicial().getCubo2());
@@ -141,26 +155,26 @@ public class Modelo {
         if(S.equals("win")){
             JOptionPane.showMessageDialog(ventanaInicial,"GANO EL JUEGO,Felicitaciones");
             if(soy.equals("server")){
-                getSistema().getServidor().getDatosEntrada().close();
-                getSistema().getServidor().getDatosSalida().close();
+                //getSistema().getServidor().getDatosEntrada().close();
+                //getSistema().getServidor().getDatosSalida().close();
                 getVentanaInicial().dispose();
             }
             if(soy.equals("cliente")){
-                getSistema().getCliente().getDatosEntrada().close();
-                getSistema().getCliente().getDatosSalida().close();
+                //getSistema().getCliente().getDatosEntrada().close();
+                //getSistema().getCliente().getDatosSalida().close();
                 getVentanaInicial().dispose();
             }
         }
         if(S.equals("lose")){
             JOptionPane.showMessageDialog(ventanaInicial,"Usted es muy mal, sera la proxima");
             if(soy.equals("server")){
-                getSistema().getServidor().getDatosEntrada().close();
-                getSistema().getServidor().getDatosSalida().close();
+                //getSistema().getServidor().getDatosEntrada().close();
+                //getSistema().getServidor().getDatosSalida().close();
                 getVentanaInicial().dispose();
             }
             if(soy.equals("cliente")){
-                getSistema().getCliente().getDatosEntrada().close();
-                getSistema().getCliente().getDatosSalida().close();
+                //getSistema().getCliente().getDatosEntrada().close();
+                //getSistema().getCliente().getDatosSalida().close();
                 getVentanaInicial().dispose();
             }
         }
@@ -601,6 +615,15 @@ public class Modelo {
 //            }else{
 //                getVentanaInicial().getCubo2()[poscx][poscy].setBackground(new Color(0,128,255)); 
 //            }
+//        }
+    }
+
+    public void setIp() {
+//        try {
+//            sistema();
+//            iniciarjuego();
+//        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(ventanaselecion,"No se pudo crear la ventana");
 //        }
     }
 

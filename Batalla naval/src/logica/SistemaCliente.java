@@ -5,19 +5,22 @@
  */
 package logica;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 /**
  *
  * @author Estudiantes
  */
 public class SistemaCliente implements Runnable{
 
-    private Socket host;
+    public static DatagramSocket clientsocket;
+    public static DatagramPacket dp;
+    public static BufferedReader dis;
+    public static InetAddress ia;
+    public static int cport = 789, sport = 790;
+    /*private Socket host;
     private DataInputStream datosEntrada;
-    private DataOutputStream datosSalida;
+    private DataOutputStream datosSalida;*/
     byte buffer[] = new byte[7];
     private String mensaje;
     private Thread correrCliente;
@@ -26,38 +29,44 @@ public class SistemaCliente implements Runnable{
     public SistemaCliente(Sistema aThis) throws IOException {
         sistema = aThis;
         System.out.println("Intentanto la conexion");
-        host = new Socket("localhost",5700); //Conexion
-        System.out.println("COnectado con "+host.getInetAddress().getHostAddress());
-        getDatosEntrada();
-        getDatosSalida();
+        clientsocket = new DatagramSocket(cport);
+        dp = new DatagramPacket(buffer, buffer.length);
+        dis = new BufferedReader(new InputStreamReader(System.in));
+        ia = InetAddress.getLocalHost();
+        //ia = InetAddress.getByName("192.168.0.5");
+        System.out.println("Cliente is Running...");
+        //host = new Socket("localhost",5700); //Conexion
+        //System.out.println("COnectado con "+clientsocket.getInetAddress().getHostAddress());
     }
     
-    public DataInputStream getDatosEntrada(){
-        if(datosEntrada==null){
-            try {
-                datosEntrada = new DataInputStream(host.getInputStream());
-            } catch (IOException ex) {
-                System.out.println("se daño el cliente datos entrada constructor");
-            }
-        }
-        return datosEntrada;
-    }
-    
-    public DataOutputStream getDatosSalida(){
-        if(datosSalida==null){
-            try {
-                datosSalida = new DataOutputStream(host.getOutputStream());
-            } catch (IOException ex) {
-                System.out.println("se daño el cliente datos de salida constructor");
-            }
-        }
-        return datosSalida;
-    }
+//    public DataInputStream getDatosEntrada(){
+//        if(datosEntrada==null){
+//            try {
+//                datosEntrada = new DataInputStream(host.getInputStream());
+//            } catch (IOException ex) {
+//                System.out.println("se daño el cliente datos entrada constructor");
+//            }
+//        }
+//        return datosEntrada;
+//    }
+//    
+//    public DataOutputStream getDatosSalida(){
+//        if(datosSalida==null){
+//            try {
+//                datosSalida = new DataOutputStream(host.getOutputStream());
+//            } catch (IOException ex) {
+//                System.out.println("se daño el cliente datos de salida constructor");
+//            }
+//        }
+//        return datosSalida;
+//    }
     
     public void leer() throws Exception {
-        datosEntrada.read(buffer);
-        System.out.println("LLEGO: "+new String(buffer));
-        mensaje = new String(buffer);
+        clientsocket.receive(dp);
+        mensaje = new String(dp.getData(), 0,dp.getLength());
+        //datosEntrada.read(buffer);
+        //System.out.println("LLEGO: "+new String(buffer));
+        //mensaje = new String(buffer);
         System.out.println("MENSAJE : "+mensaje);
         sistema.disparosLLega(mensaje);
 //        datosEntrada.close();
@@ -66,7 +75,8 @@ public class SistemaCliente implements Runnable{
 
     public void enviar(String mensaje) throws IOException{
         System.out.println("Mensaje :"+mensaje);
-        datosSalida.write(mensaje.getBytes());
+        clientsocket.send(new DatagramPacket(mensaje.getBytes(),mensaje.length(), ia, sport));
+        //datosSalida.write(mensaje.getBytes());
         System.out.println("enviado");
 //        datosSalida.close();
 //        host.close();
