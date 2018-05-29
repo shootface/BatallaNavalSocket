@@ -14,6 +14,7 @@ public class Disparos {
     private Sistema sistema;
     private boolean gano = false;
     private boolean flag = false;
+    private int conteo = 0;
     
     public Disparos(Sistema aThis) {
         sistema = aThis;
@@ -49,6 +50,7 @@ public class Disparos {
             gano = true;
         }
         System.out.println("contador : "+cont);
+        conteo = cont;
         return gano;
     }
     
@@ -75,6 +77,11 @@ public class Disparos {
     public boolean isFlag() {
         return flag;
     }
+
+    public int getConteo() {
+        return conteo;
+    }
+    
     
     
 }

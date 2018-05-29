@@ -52,23 +52,34 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabelPuntaje = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabelPuntaje.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jLabelPuntaje.setText("Puntaje : 0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1053, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelPuntaje, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(953, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 563, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabelPuntaje, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 530, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabelPuntaje;
     // End of variables declaration//GEN-END:variables
 
     private void lateral(){
@@ -96,8 +107,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             lateral[i].setBackground(Color.LIGHT_GRAY);
             this.getContentPane().add(lateral[i]);
         }
-    }
-    
+    } 
     private void lateral2(){
         lateral = new JLabel[10];
         int posy = 0;
@@ -124,7 +134,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             this.getContentPane().add(lateral[i]);
         }
     }
-    
     private void superior(){
         superior = new JLabel[10];
         int posy = 0;
@@ -140,7 +149,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             this.getContentPane().add(superior[i]);
         }
     }
-    
     private void superior2(){
         superior = new JLabel[10];
         int posy = 0;
@@ -156,7 +164,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             this.getContentPane().add(superior[i]);
         }
     }
-    
     private void initCajones(int posx ,int posy) {
         Cubo = new JLabel[10][10];
         int contx = 0;
@@ -180,7 +187,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
       }
     }
-    
     private void initCajones2(int posx ,int posy) {
         Cubo2 = new JLabel[10][10];
         for(int i=0;i<10;i++){
@@ -201,7 +207,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
       }
     }
-    
     private void barcos(){ 
         //Creacion de los submarinos
         submarino = new JLabel[5];
@@ -271,7 +276,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         crucero[1][2].setName("crucero22");
         acorazado = new JLabel[4][1];
     }
-    
+    //GETS
     public JLabel[][] getCubo(){
         return Cubo;
     }
@@ -295,6 +300,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
     public Modelo getModelo() {
         return modelo;
+    }
+    public JLabel getjLabelPuntaje() {
+        return jLabelPuntaje;
     }
     
     

@@ -3,9 +3,6 @@ package presentacion;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import logica.Sistema;
@@ -50,7 +47,7 @@ public class Modelo {
             submarino[i] = true; 
         }
     }
-    
+    //Metodos de inico de las ventanas 
     public void iniciar(){
           inciarservidorJuego();
     }
@@ -63,6 +60,7 @@ public class Modelo {
         getVentanaInicial().setVisible(true);  
     }
     
+    //Metodo de inicio de los servidores
     public void inciarservidorJuego(){
         try {
             if (creado == false) {
@@ -74,11 +72,11 @@ public class Modelo {
                 getSistema().getChatServer().getHilo().start();
                 System.out.println("inciado");
                 soy = "server";
-//                try {
-//                    iniciarjuego();
-//                } catch (Exception ex) {
-//                    System.out.println("No se puedo iniciar la ventana " + ex.toString());
-//                }
+                try {
+                    iniciarjuego();
+                } catch (Exception ex) {
+                    System.out.println("No se puedo iniciar la ventana " + ex.toString());
+                }
                 try {
                     iniciarChat();
                 } catch (Exception ex) {
@@ -94,12 +92,11 @@ public class Modelo {
                 System.out.println("No se pudo conectar al servidor");
                 //JOptionPane.showMessageDialog(ventanaselecion,"No se pudo conectar al servidor");
             }
-//            try {
-//                iniciarjuego();
-//            } catch (Exception ex1) {
-//                System.out.println("Error en la ventana");
-//                //Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex1);
-//            }
+            try {
+                iniciarjuego();
+            } catch (Exception ex1) {
+                System.out.println("Error en la ventana"+ex1);
+            }
             try {
                 iniciarChat();
             } catch (Exception ex2) {
@@ -135,7 +132,6 @@ public class Modelo {
     //Metodos del juego
     public void sistema() throws Exception{
             System.out.println("Se detiene el hilo del servidor para ser cliente");
-            //getSistema().getServidor().detener();
             System.out.println("entro a unir");
             soy="cliente";
             System.out.println("inicio hilo");
@@ -144,7 +140,7 @@ public class Modelo {
             System.out.println("inciado");
     }     
     public void controlDisparosSalida(JLabel label) throws IOException{
-        if(cont==1){
+        if(cont==3){
             barcos=true;
             System.out.println("TODOS LOS BARCOS");
             getSistema().getDisparos().recorrer(getVentanaInicial().getCubo());
@@ -168,14 +164,10 @@ public class Modelo {
             JOptionPane.showMessageDialog(ventanaInicial,"GANO EL JUEGO,Felicitaciones");
             if(soy.equals("server")){
                 getSistema().getServidor().detener();
-                //getSistema().getServidor().getDatosEntrada().close();
-                //getSistema().getServidor().getDatosSalida().close();
                 getVentanaInicial().dispose();
             }
             if(soy.equals("cliente")){
                 getSistema().getCliente().detener();
-                //getSistema().getCliente().getDatosEntrada().close();
-                //getSistema().getCliente().getDatosSalida().close();
                 getVentanaInicial().dispose();
             }
         }
@@ -183,14 +175,10 @@ public class Modelo {
             JOptionPane.showMessageDialog(ventanaInicial,"Usted es muy mal, sera la proxima");
             if(soy.equals("server")){
                 getSistema().getServidor().detener();
-                //getSistema().getServidor().getDatosEntrada().close();
-                //getSistema().getServidor().getDatosSalida().close();
                 getVentanaInicial().dispose();
             }
             if(soy.equals("cliente")){
                 getSistema().getCliente().detener();
-                //getSistema().getCliente().getDatosEntrada().close();
-                //getSistema().getCliente().getDatosSalida().close();
                 getVentanaInicial().dispose();
             }
         }
@@ -645,7 +633,11 @@ public class Modelo {
 //            }
 //        }
     }
-
+    public void setPuntaje(int puntaje){
+        getVentanaInicial().getjLabelPuntaje().setText("Puntaje : "+puntaje);
+    }
+    
+    //Metodos Chat 
     public void enviarChat(String mensaje) {
         getSistema().mensajesSalida(mensaje, soy);
         String temp  = getVentanaChat().getjTextAreaMensaje().getText();
@@ -656,7 +648,6 @@ public class Modelo {
             getVentanaChat().getjTextAreaMensaje().setText(temp +"\n"+"Cliente :" +mensaje);
         }
     }
-
     public void escribir(String mensaje) {
         String temp  = getVentanaChat().getjTextAreaMensaje().getText();
         if(soy.equals("server")){

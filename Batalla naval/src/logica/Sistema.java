@@ -103,55 +103,6 @@ public class Sistema {
         tempy = Integer.parseInt(post[1]);
         System.out.println("x : " + tempx + " y: " + tempy + " estado: " + post[2] + "turno" + post[3]);
         if (post[2].equals("N")) {
-//            System.out.println("verifico si el disparo llego");
-//            if(post[3].equals("S") && turno!="S"){
-//                if(getDisparos().disparoLlega(tempx, tempy)){
-//                    if(modelo.getSoy().equals("server")){
-//                        try {
-//                            System.out.println("ACERRO server");
-//                            getServidor().enviar(Integer.toString(tempx)+"/"+Integer.toString(tempy)+"/"+"T"+"/"+"C");
-//                            modelo.ShootingShip(tempx, tempy);
-//                        } catch (IOException ex) {
-//                            System.out.println("DAÑO ENVIAR VERIFICACION DE DISPARO disparosllega sistema server");
-//                        }
-//                    }
-//                }else{
-//                    if(modelo.getSoy().equals("server")){
-//                        try {
-//                            System.out.println("FALLO Server");
-//                            getServidor().enviar(Integer.toString(tempx)+"/"+Integer.toString(tempy)+"/"+"F"+"/"+"C");
-//                        } catch (IOException ex) {
-//                            System.out.println("DAÑO ENVIAR VERIFICACION DE DISPARO disparosllega sistema server envio negativo");
-//                        }
-//                    }
-//                }
-//                turno = "S";
-//            }else{
-//                if(post[3].equals("C") && turno!="C"){
-//                    if(getDisparos().disparoLlega(tempx, tempy)){
-//                        if(modelo.getSoy().equals("cliente")){
-//                            try {
-//                                System.out.println("ACERTO cliente");
-//                                getCliente().enviar(Integer.toString(tempx)+"/"+Integer.toString(tempy)+"/"+"T"+"/"+"S");
-//                                modelo.ShootingShip(tempx, tempy);
-//                            } catch (IOException ex) {
-//                                System.out.println("DAÑO ENVIAR VERIFICACIOM DE DISPARO disparosllega sistema cliente");
-//                            }
-//                        }
-//                    }else{
-//                        if(modelo.getSoy().equals("cliente")){
-//                            try {
-//                                System.out.println("FALLO cliente");
-//                                getCliente().enviar(Integer.toString(tempx)+"/"+Integer.toString(tempy)+"/"+"F"+"/"+"S");
-//                             } catch (IOException ex) {
-//                                System.out.println("DAÑO ENVIAR VERIFICACIOM DE DISPARO disparosllega sistema cliente envio negativo");
-//                            }
-//                        }
-//                    }
-//                    turno = "C";
-//                }
-//            }
-
             if (getDisparos().disparoLlega(tempx, tempy)) {//AQUI
                 System.out.println("verifico si el disparo llego");
                 if (modelo.getSoy().equals("server")) {
@@ -264,6 +215,7 @@ public class Sistema {
                 }
             }
         }
+        modelo.setPuntaje(getDisparos().getConteo());
     }
     
     public void mensajesSalida(String mensaje,String soy){
