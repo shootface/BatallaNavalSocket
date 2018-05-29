@@ -52,11 +52,12 @@ public class Modelo {
     }
     
     public void iniciar(){
-//        getVentanaSelecion().setSize(300,300);
-//        getVentanaSelecion().setVisible(true);
           inciarservidorJuego();
     }
-    
+    public void iniciarChat() throws Exception{
+        getVentanaChat().setSize(275,493);
+        getVentanaChat().setVisible(true);
+    }
     public void iniciarjuego() throws Exception {
         getVentanaInicial().setSize(1200,1300);
         getVentanaInicial().setVisible(true);  
@@ -64,19 +65,24 @@ public class Modelo {
     
     public void inciarservidorJuego(){
         try {
-            if(creado==false){
-            System.out.println("SOY SERVIDOR");
-            getSistema().getServidor().crearServidor();
-            getSistema().getChatServer().crearServidor();
-            System.out.println("inicio hilo");
-            getSistema().getServidor().getHilo().start();
-            getSistema().getChatServer().getHilo().start();
-            System.out.println("inciado");
-            soy="server";
+            if (creado == false) {
+                System.out.println("SOY SERVIDOR");
+                getSistema().getServidor().crearServidor();
+                getSistema().getChatServer().crearServidor();
+                System.out.println("inicio hilo");
+                getSistema().getServidor().getHilo().start();
+                getSistema().getChatServer().getHilo().start();
+                System.out.println("inciado");
+                soy = "server";
+//                try {
+//                    iniciarjuego();
+//                } catch (Exception ex) {
+//                    System.out.println("No se puedo iniciar la ventana " + ex.toString());
+//                }
                 try {
-                    iniciarjuego();
+                    iniciarChat();
                 } catch (Exception ex) {
-                    System.out.println("No se puedo iniciar la ventana "+ex.toString());
+                    System.out.println("No se puedo iniciar la ventana chat" + ex.toString());
                 }
             }
         } catch (IOException ex) {
@@ -88,11 +94,16 @@ public class Modelo {
                 System.out.println("No se pudo conectar al servidor");
                 //JOptionPane.showMessageDialog(ventanaselecion,"No se pudo conectar al servidor");
             }
+//            try {
+//                iniciarjuego();
+//            } catch (Exception ex1) {
+//                System.out.println("Error en la ventana");
+//                //Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex1);
+//            }
             try {
-                iniciarjuego();
-            } catch (Exception ex1) {
-                System.out.println("Error en la ventana");
-                //Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex1);
+                iniciarChat();
+            } catch (Exception ex2) {
+                System.out.println("No se puedo iniciar la ventana chat" + ex2.toString());
             }
         }
     }
@@ -123,24 +134,14 @@ public class Modelo {
     
     //Metodos del juego
     public void sistema() throws Exception{
-        /*if(boton.getName().equals("crear")){
-            System.out.println("entro a crear");
-            soy="server";
-            inciarservidorJuego();
-            iniciarjuego();
-            System.out.println("inicio hilo");
-            getSistema().getServidor().getHilo().start();
-            System.out.println("inciado");
-        }*/
-        //if(boton.getName().equals("unir")){
             System.out.println("Se detiene el hilo del servidor para ser cliente");
             //getSistema().getServidor().detener();
             System.out.println("entro a unir");
             soy="cliente";
             System.out.println("inicio hilo");
             getSistema().getCliente().getHilo().start();
+            getSistema().getChatClient().getHilo().start();
             System.out.println("inciado");
-        //}
     }     
     public void controlDisparosSalida(JLabel label) throws IOException{
         if(cont==1){
@@ -645,17 +646,25 @@ public class Modelo {
 //        }
     }
 
-    public void setIp() {
-//        try {
-//            sistema();
-//            iniciarjuego();
-//        } catch (Exception ex) {
-//            JOptionPane.showMessageDialog(ventanaselecion,"No se pudo crear la ventana");
-//        }
+    public void enviarChat(String mensaje) {
+        getSistema().mensajesSalida(mensaje, soy);
+        String temp  = getVentanaChat().getjTextAreaMensaje().getText();
+        if(soy.equals("server")){
+            getVentanaChat().getjTextAreaMensaje().setText(temp +"\n"+"Servidor :" +mensaje);
+        }
+        if(soy.equals("cliente")){
+            getVentanaChat().getjTextAreaMensaje().setText(temp +"\n"+"Cliente :" +mensaje);
+        }
     }
 
-    void enviarChat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void escribir(String mensaje) {
+        String temp  = getVentanaChat().getjTextAreaMensaje().getText();
+        if(soy.equals("server")){
+            getVentanaChat().getjTextAreaMensaje().setText(temp +"\n"+"Cliente :" +mensaje);
+        }
+        if(soy.equals("cliente")){
+            getVentanaChat().getjTextAreaMensaje().setText(temp +"\n"+"Servidor :" +mensaje);
+        }
     }
 
 }

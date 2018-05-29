@@ -266,11 +266,26 @@ public class Sistema {
         }
     }
     
-    public void mensajesSalida(String mensaje){
-        
+    public void mensajesSalida(String mensaje,String soy){
+        if(soy.equals("server")){
+            try{
+                System.out.println("ENVIANDO EL MENSAJE");
+                getChatServer().enviar(mensaje);
+            }catch(IOException ex){
+                System.out.println("ERROR enviando el mensaje : "+ex);
+            }
+        }
+        if(soy.equals("cliente")){
+            try{
+                System.out.println("ENVIANDO EL MENSAJE");
+                getChatClient().enviar(mensaje);
+            }catch(IOException ex){
+                System.out.println("ERROR enviando el mensaje : "+ex);
+            }
+        }
     }
     
     public void mensajesEntrada(String mensaje){
-        
+        modelo.escribir(mensaje);
     }
 }
