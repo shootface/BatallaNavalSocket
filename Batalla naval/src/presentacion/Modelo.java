@@ -140,7 +140,7 @@ public class Modelo {
             System.out.println("inciado");
     }     
     public void controlDisparosSalida(JLabel label) throws IOException{
-        if(cont==3){
+        if(cont==16){
             barcos=true;
             System.out.println("TODOS LOS BARCOS");
             getSistema().getDisparos().recorrer(getVentanaInicial().getCubo());
