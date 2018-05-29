@@ -1,6 +1,8 @@
 package logica;
 
 import java.io.IOException;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import javax.swing.JLabel;
 import presentacion.Modelo;
 
@@ -12,6 +14,8 @@ public class Sistema {
 
     private SistemaCliente cliente;
     private SistemaServidor servidor;
+    private UDPServer chatServer;
+    private UDPClient chatCliente;
     private Disparos disparos;
     private final Modelo modelo;
     private String turno = "";
@@ -20,6 +24,18 @@ public class Sistema {
         modelo = aThis;
     }
 
+    public UDPClient getChatClient() throws SocketException, UnknownHostException{
+        if(chatCliente==null){
+            chatCliente = new UDPClient(this);
+        }
+        return chatCliente;
+    }
+    public UDPServer getChatServer(){
+        if(chatServer==null){
+            chatServer=new UDPServer(this);
+        }
+        return chatServer;
+    }
     public SistemaCliente getCliente() throws IOException {
         if (cliente == null) {
             cliente = new SistemaCliente(this);
@@ -248,5 +264,13 @@ public class Sistema {
                 }
             }
         }
+    }
+    
+    public void mensajesSalida(String mensaje){
+        
+    }
+    
+    public void mensajesEntrada(String mensaje){
+        
     }
 }

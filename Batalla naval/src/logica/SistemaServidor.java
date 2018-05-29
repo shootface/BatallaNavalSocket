@@ -108,14 +108,14 @@ public class SistemaServidor implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("inicio hilo del servidor");
+        //System.out.println("inicio hilo del servidor");
         do{
             try {
-                System.out.println("intento leer");
+                //System.out.println("intento leer");
                 leer();
-                System.out.println("si pudo leer");
+                //System.out.println("si pudo leer");
             } catch (IOException ex) {
-                System.out.println("DAÑO HILO LEER SERVIDOR "+ex);
+                System.out.println("ERROR HILO LEER SERVIDOR "+ex);
             }
         }while(detener==false);
     }

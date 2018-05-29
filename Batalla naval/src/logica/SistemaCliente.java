@@ -32,7 +32,7 @@ public class SistemaCliente implements Runnable{
         System.out.println("Intentanto la conexion");
         clientsocket = new DatagramSocket(cport);
         dp = new DatagramPacket(buffer, buffer.length);
-        dis = new BufferedReader(new InputStreamReader(System.in));
+        //dis = new BufferedReader(new InputStreamReader(System.in));
         ia = InetAddress.getLocalHost();
         //ia = InetAddress.getByName("192.168.0.5");
         System.out.println("Cliente is Running...");

@@ -20,7 +20,7 @@ public class Modelo {
     private String soy;
     private String nickname;
     private VentanaPrincipal ventanaInicial;
-    private VentanaSelecion ventanaselecion;
+    private VentanaChat ventanaChat;
     private Sistema sistema;
     private boolean creado=false;
     private boolean barcos=false;
@@ -67,8 +67,10 @@ public class Modelo {
             if(creado==false){
             System.out.println("SOY SERVIDOR");
             getSistema().getServidor().crearServidor();
+            getSistema().getChatServer().crearServidor();
             System.out.println("inicio hilo");
             getSistema().getServidor().getHilo().start();
+            getSistema().getChatServer().getHilo().start();
             System.out.println("inciado");
             soy="server";
                 try {
@@ -103,11 +105,11 @@ public class Modelo {
         }
         return ventanaInicial;
     }
-    public VentanaSelecion getVentanaSelecion(){
-        if(ventanaselecion==null){
-            ventanaselecion = new VentanaSelecion(this);
+    public VentanaChat getVentanaChat(){
+        if(ventanaChat==null){
+            ventanaChat = new VentanaChat(this);
         }
-        return ventanaselecion;
+        return ventanaChat;
     }
     public Sistema getSistema(){
         if(sistema==null){
@@ -650,6 +652,10 @@ public class Modelo {
 //        } catch (Exception ex) {
 //            JOptionPane.showMessageDialog(ventanaselecion,"No se pudo crear la ventana");
 //        }
+    }
+
+    void enviarChat() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
