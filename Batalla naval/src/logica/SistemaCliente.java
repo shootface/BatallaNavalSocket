@@ -32,55 +32,22 @@ public class SistemaCliente implements Runnable{
         System.out.println("Intentanto la conexion");
         clientsocket = new DatagramSocket(cport);
         dp = new DatagramPacket(buffer, buffer.length);
-        //dis = new BufferedReader(new InputStreamReader(System.in));
-        ia = InetAddress.getLocalHost();
-        //ia = InetAddress.getByName("192.168.0.5");
+        ia = InetAddress.getByName("192.168.0.6");//IP del servidor
+        //ia = InetAddress.getLocalHost();
         System.out.println("Cliente is Running...");
-        //host = new Socket("localhost",5700); //Conexion
-        //System.out.println("COnectado con "+clientsocket.getInetAddress().getHostAddress());
     }
-    
-//    public DataInputStream getDatosEntrada(){
-//        if(datosEntrada==null){
-//            try {
-//                datosEntrada = new DataInputStream(host.getInputStream());
-//            } catch (IOException ex) {
-//                System.out.println("se daño el cliente datos entrada constructor");
-//            }
-//        }
-//        return datosEntrada;
-//    }
-//    
-//    public DataOutputStream getDatosSalida(){
-//        if(datosSalida==null){
-//            try {
-//                datosSalida = new DataOutputStream(host.getOutputStream());
-//            } catch (IOException ex) {
-//                System.out.println("se daño el cliente datos de salida constructor");
-//            }
-//        }
-//        return datosSalida;
-//    }
     
     public void leer() throws Exception {
         clientsocket.receive(dp);
         mensaje = new String(dp.getData(), 0,dp.getLength());
-        //datosEntrada.read(buffer);
-        //System.out.println("LLEGO: "+new String(buffer));
-        //mensaje = new String(buffer);
-        System.out.println("MENSAJE : "+mensaje);
+        System.out.println("MENSAJE LLEGO : "+mensaje);
         sistema.disparosLLega(mensaje);
-//        datosEntrada.close();
-//        host.close();
     }
 
     public void enviar(String mensaje) throws IOException{
-        System.out.println("Mensaje :"+mensaje);
+        System.out.println("Mensaje SALIO:"+mensaje);
         clientsocket.send(new DatagramPacket(mensaje.getBytes(),mensaje.length(), ia, sport));
-        //datosSalida.write(mensaje.getBytes());
         System.out.println("enviado");
-//        datosSalida.close();
-//        host.close();
     }
     
     public Thread getHilo(){

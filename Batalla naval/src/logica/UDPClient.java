@@ -22,7 +22,8 @@ public class UDPClient implements Runnable{
         System.out.println("IntentandoConexion");
         clientsocket = new DatagramSocket(cport);
         dp = new DatagramPacket(buf, buf.length);
-        ia = InetAddress.getLocalHost();
+        ia = InetAddress.getByName("198.168.0.6");//IP del servidor
+        //ia = InetAddress.getLocalHost();
         System.out.println("Client is running ...");
     }
     
@@ -36,10 +37,7 @@ public class UDPClient implements Runnable{
     public void enviar(String mensaje) throws IOException{
         System.out.println("Mensaje :"+mensaje);
         clientsocket.send(new DatagramPacket(mensaje.getBytes(),mensaje.length(), ia, sport));
-        //datosSalida.write(mensaje.getBytes());
         System.out.println("enviado");
-//        datosSalida.close();
-//        host.close();
     }
     
     public void detener(){

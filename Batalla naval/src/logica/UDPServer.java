@@ -39,7 +39,8 @@ public class UDPServer implements Runnable{
         serversocket = new DatagramSocket(sport);
         dp = new DatagramPacket(buf, buf.length);
         dis = new BufferedReader(new InputStreamReader(System.in));
-        ia = InetAddress.getLocalHost();
+        ia = InetAddress.getByName("10.20.151.15");//IP del cliente
+        //ia = InetAddress.getLocalHost();
         System.out.println("Server is Running...");
     }
     
@@ -68,10 +69,8 @@ public class UDPServer implements Runnable{
 
     @Override
     public void run() {
-        //System.out.println("Inicio hilo servidor chat");
         do{
             try{
-            //System.out.println("intento leer");
             leer();
         }catch(IOException ex){
             System.out.println("ERROR HILO LEER SERVIDOR CHAT "+ex);

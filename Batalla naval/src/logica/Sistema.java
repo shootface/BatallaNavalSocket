@@ -57,7 +57,7 @@ public class Sistema {
         return disparos;
     }
 
-    public void disparosSalida(JLabel label, String soy, JLabel[][] cubo2,boolean b) {
+    public void disparosSalida(JLabel label, String soy, JLabel[][] cubo2,boolean b) {//Verifica los diparos de salida, 
         if (label.getName().equals("mar2") && b==true) {
             System.out.println("inicio el control de salida");
             int tempx = 0;
@@ -155,6 +155,7 @@ public class Sistema {
                     getServidor().enviar("0/0/P/P");
                     System.out.println("mensaje trato");
                     modelo.finJuego("win");
+                    System.out.println("GANEEEEE SERVER");
                     System.out.println("mensaje hecho");
                 } catch (IOException ex) {
                     System.out.println("DAÑO ENVIAR PERDIO EN server");
@@ -165,6 +166,7 @@ public class Sistema {
                     getCliente().enviar("0/0/P/P");
                     System.out.println("mensaje trato");
                     modelo.finJuego("win");
+                    System.out.println("GANEEEEEEE CLIENTE");
                     System.out.println("mensaje hecho");
                 } catch (IOException ex) {
                     System.out.println("DAÑO ENVIAR PERDIO EN cliente");

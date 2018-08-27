@@ -85,7 +85,7 @@ public class Modelo {
             }
         } catch (IOException ex) {
             System.out.println("No se pudo crear el servidor");
-            //JOptionPane.showMessageDialog(ventanaselecion,"No se pudo crear el servidor");
+//            //JOptionPane.showMessageDialog(ventanaselecion,"No se pudo crear el servidor");
             try {
                 sistema();
             } catch (Exception ex1) {
@@ -139,7 +139,7 @@ public class Modelo {
             getSistema().getChatClient().getHilo().start();
             System.out.println("inciado");
     }     
-    public void controlDisparosSalida(JLabel label) throws IOException{
+    public void controlDisparosSalida(JLabel label) throws IOException{//Verifica que se asignen los 16 barcos en el mar para poder empezar a disparar 
         if(cont==16){
             barcos=true;
             System.out.println("TODOS LOS BARCOS");
@@ -159,7 +159,7 @@ public class Modelo {
     public void ShootingShip(int x,int y){
         getVentanaInicial().getCubo()[x][y].setBackground(Color.RED);
     }
-    public void finJuego(String S) throws IOException{
+    public void finJuego(String S) throws IOException{//Este metodo se llama siempre y define el mensaje que se muestra sobre la ventana tanto cuando gana como cuando pierde 
         if(S.equals("win")){
             JOptionPane.showMessageDialog(ventanaInicial,"GANO EL JUEGO,Felicitaciones");
             if(soy.equals("server")){
@@ -183,7 +183,7 @@ public class Modelo {
             }
         }
     }
-    public void clickbarco(JLabel barco) {
+    public void clickbarco(JLabel barco) {//Gestina el click para llamar a los metodos debajo de este 
         if (barco.getName() != "mar") {
             barcoS = barco.getName();
             if (barcoS.substring(0, barcoS.length() - 1).equals("submarino")) {
@@ -232,7 +232,7 @@ public class Modelo {
         }
 
     }
-    public void asignarSubmarino(JLabel barco){
+    public void asignarSubmarino(JLabel barco){//Asigna el submarino 
         if(barco.getName().equals("mar")){
             if(barcoS.equals("submarino0")){
                 if(barco.getBackground()!=Color.BLACK){
@@ -633,12 +633,12 @@ public class Modelo {
 //            }
 //        }
     }
-    public void setPuntaje(int puntaje){
+    public void setPuntaje(int puntaje){//Asigna el valor al label del puntaje
         getVentanaInicial().getjLabelPuntaje().setText("Puntaje : "+puntaje);
     }
     
     //Metodos Chat 
-    public void enviarChat(String mensaje) {
+    public void enviarChat(String mensaje) {//Metodo de envio del chat
         getSistema().mensajesSalida(mensaje, soy);
         String temp  = getVentanaChat().getjTextAreaMensaje().getText();
         if(soy.equals("server")){
@@ -648,7 +648,7 @@ public class Modelo {
             getVentanaChat().getjTextAreaMensaje().setText(temp +"\n"+"Cliente :" +mensaje);
         }
     }
-    public void escribir(String mensaje) {
+    public void escribir(String mensaje) {//El label superior toma el texto que estaba antes y lo concatena con el mensaje nuevo 
         String temp  = getVentanaChat().getjTextAreaMensaje().getText();
         if(soy.equals("server")){
             getVentanaChat().getjTextAreaMensaje().setText(temp +"\n"+"Cliente :" +mensaje);

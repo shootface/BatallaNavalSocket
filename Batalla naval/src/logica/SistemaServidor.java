@@ -43,9 +43,8 @@ public class SistemaServidor implements Runnable{
         serversocket = new DatagramSocket(sport);
         dp = new DatagramPacket(buffer, buffer.length);
         dis = new BufferedReader(new InputStreamReader(System.in));
-        ia = InetAddress.getLocalHost();
-        //ia = InetAddress.getByName(ip);
-        //ia = InetAddress.getByName("192.168.0.5");
+        ia = InetAddress.getByName("192.168.0.6");//IP del cliente
+        //ia = InetAddress.getLocalHost();
         System.out.println("Server is Running...");
         /*server = new ServerSocket(5700);
         System.out.println("espero cliente");  
